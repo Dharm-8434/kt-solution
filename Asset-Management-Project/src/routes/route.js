@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {createUser,getEmployee} = require('../controller/employeMaster')
+const {createUser,getEmployee,editEmployee} = require('../controller/employeMaster')
 
 router.post('/create',createUser)
-router.get('/getEmployee',getEmployee)
-
+router.get('/get',getEmployee)
+router.put('/edit',editEmployee)
 
 module.exports = router

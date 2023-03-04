@@ -56,21 +56,21 @@ res.status(201).send({
 
   const getEmployee = async function(req,res){
     try {
-            let employee = req.params.employeeId
-            console.log(employee)
-            // if (!employeeId) {
-            //   return res 
-            //     .status(400)
-            //     .send({ status: false, message: "please enter a employeeId ! " });
-            // }
+            let employeeId = req.query.employeeId
+            //console.log(employee)
+            if (!employeeId) {
+              return res 
+                .status(400)
+                .send({ status: false, message: "please enter a employeeId ! " });
+            }
           
-            // let employee = await employeeModel.findOne({ _id: employeeId });
-            // if (!employee) {
-            //   return res.status(404).send({
-            //     status: false,
-            //     message: "this employee id is not found in employee collection ",
-            //   });
-            // }
+            let employee = await employeeModel.findOne({ _id: employeeId });
+            if (!employee) {
+              return res.status(404).send({
+                status: false,
+                message: "this employee id is not found in employee collection ",
+              });
+            }
             
           
             return res
@@ -81,4 +81,24 @@ res.status(201).send({
     }
   }
   
-  module.exports= {createUser,getEmployee}
+
+//-----------------edit---------------------//
+const editEmployee =  async function(req,res){
+  try {
+    const data = req.body;
+    const employeeId = req.query.employeeId;
+    const update = {};
+
+    const { name,email, phone,address } = data;
+
+    const employeedata = await employeeModel.findOne({_id:employeeId})
+    if(!employeeId){
+      res.status(400).send({status:false,message:"employee detail not found"})
+    }
+  } catch (error) {
+    res.status(500).send({status: false, message: error.message });
+  }
+};
+
+
+  module.exports= {createUser,getEmployee,editEmployee};
